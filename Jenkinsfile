@@ -1,27 +1,21 @@
 pipeline {
     agent any
-    
+
     tools {
-        jdk 'java17'
-        maven 'maven'
+        maven 'maven' // Assuming 'maven' is the name of the Maven installation in Jenkins
     }
+
     environment {
-        // Define environment variables
-        BRANCH_NAME = "${env.GIT_BRANCH}"
-        TOMCAT_SERVER = "http://192.168.0.113:8080"
-        TOMCAT_USER = "admin"
-        TOMCAT_PASSWORD = "Moh123\$\$"  // Use Jenkins credentials for sensitive info
-        TOMCAT_DEPLOY_PATH = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0'
+        TOMCAT_DEPLOY_PATH = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps'
     }
+
     stages {
-        // stage('Git Checkout') {
-        //     steps {
-        //         echo "Cehckout branch ${BRANCH_NAME}"
-        //         git scm
-        //         echo "Checkout Completed"
-        //     }
-        // }
-        
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Test') {
             steps {
                 bat "mvn test"
@@ -35,17 +29,24 @@ pipeline {
         }
 
         stage('Deploy to Tomcat') {
-    steps {
-        script {
-            // Debugging step to print the paths
-            echo "Target WAR Path: target\\*.war"
-            echo "Tomcat Deployment Path: ${TOMCAT_DEPLOY_PATH}\\webapps\\"
-            // Proceed with the deployment
-           bat 'copy "C:\\Users\\ACER\\.jenkins\\workspace\\Maven-build\\target\\*.war" "%TOMCAT_DEPLOY_PATH%\\webapps\\"'
+            steps {
+                script {
+                    // Debugging step to print the paths
+                    echo "Target WAR Path: target\\*.war"
+                    echo "Tomcat Deployment Path: ${env.TOMCAT_DEPLOY_PATH}\\webapps\\"
+                    // Proceed with the deployment
+                    bat "copy \"C:\\Users\\ACER\\.jenkins\\workspace\\Maven-build\\target\\*.war\" \"${env.TOMCAT_DEPLOY_PATH}\""
+                }
+            }
         }
     }
-}
 
-
+    post {
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
     }
 }
