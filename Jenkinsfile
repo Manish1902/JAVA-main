@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        TOMCAT_DEPLOY_PATH = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 11 0_Tomcat11_Temp'
+        TOMCAT_DEPLOY_PATH = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 11 0_Tomcat11_Temp\\webapps'
     }
 
     stages {
@@ -33,9 +33,9 @@ pipeline {
                 script {
                     // Debugging step to print the paths
                     echo "Target WAR Path: target\\*.war"
-                    echo "Tomcat Deployment Path: ${env.TOMCAT_DEPLOY_PATH}\\webapps\\"
+                    echo "Tomcat Deployment Path: ${env.TOMCAT_DEPLOY_PATH}"
                     // Proceed with the deployment
-                    bat 'copy "C:\\Users\\ACER\\.jenkins\\workspace\\Maven-build\\target\\*.war" "%TOMCAT_DEPLOY_PATH%\\webapps\\"'
+                    bat "copy \"C:\\Users\\ACER\\.jenkins\\workspace\\Maven-build\\target\\hello-world-1.0-SNAPSHOT.war\" \"${env.TOMCAT_DEPLOY_PATH}\""
                 }
             }
         }
