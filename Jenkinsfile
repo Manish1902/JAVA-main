@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        TOMCAT_DEPLOY_PATH = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 11 0_Tomcat11_Temp\\webapps'
+        TOMCAT_DEPLOY_PATH = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 11 0_Tomcat11_Temp'
     }
 
     stages {
