@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Debugging step to print the paths
-                    echo "Target WAR Path: target\\*.war"
+                    echo "Target WAR Path: target\\hello-world-1.0-SNAPSHOT.war"
                     echo "Tomcat Deployment Path: ${env.TOMCAT_DEPLOY_PATH}"
                     // Proceed with the deployment
                     bat "copy \"C:\\Users\\ACER\\.jenkins\\workspace\\Maven-build\\target\\hello-world-1.0-SNAPSHOT.war\" \"${env.TOMCAT_DEPLOY_PATH}\""
